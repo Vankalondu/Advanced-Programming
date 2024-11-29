@@ -1,0 +1,67 @@
+Main Class (Client Code to Test the Functionality):
+import java.util.Calendar;
+
+/**
+ * Main class that demonstrates testing of the DepositTransaction and WithdrawalTransaction.
+ */
+public class Main {
+    public static void main(String[] args) {
+        // Create a Calendar instance for the transaction date
+        Calendar date = Calendar.getInstance();
+
+        // Create a BankAccount object
+        BankAccount account = new BankAccount(5000); // Initial balance: 5000
+
+        // Create a DepositTransaction and a WithdrawalTransaction
+        DepositTransaction deposit = new DepositTransaction(2000, date, "D001");
+        WithdrawalTransaction withdrawal = new WithdrawalTransaction(1000, date, "W001");
+
+        // Test Deposit
+        System.out.println("Before Deposit:");
+        System.out.println("Account balance: " + account.getBalance());
+        deposit.apply(account); // Apply deposit
+        deposit.printTransactionDetails();
+        System.out.println("After Deposit:");
+        System.out.println("Account balance: " + account.getBalance());
+
+        // Test Withdrawal
+        System.out.println("\nBefore Withdrawal:");
+        System.out.println("Account balance: " + account.getBalance());
+        withdrawal.apply(account); // Apply withdrawal
+        withdrawal.printTransactionDetails();
+        System.out.println("After Withdrawal:");
+        System.out.println("Account balance: " + account.getBalance());
+
+        // Test Reverse (for withdrawal)
+        System.out.println("\nReversing Withdrawal:");
+        withdrawal.reverse(account); // Reverse the withdrawal
+        System.out.println("Account balance after reversal: " + account.getBalance());
+    }
+}
+
+BankAccount Class (To Support the Transaction Logic):
+/**
+ * BankAccount class to manage account balance and transaction operations.
+ */
+public class BankAccount {
+    private double balance;
+
+    public BankAccount(double initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void deposit(double amount) {
+        balance += amount; // Increase the balance by the deposit amount
+    }
+
+    public void withdraw(double amount) throws InsufficientFundsException {
+        if (balance < amount) {
+            throw new InsufficientFundsException("Not enough funds to withdraw.");
+        }
+        balance -= amount; // Decrease the balance by the withdrawal amount
+    }
+}
