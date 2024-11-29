@@ -1,0 +1,26 @@
+InsufficientFundsException Class:
+/**
+ * InsufficientFundsException class is a custom exception used
+ * when there are insufficient funds in the account for a withdrawal.
+ */
+public class InsufficientFundsException extends Exception {
+    public InsufficientFundsException(String message) {
+        super(message);
+    }
+}
+
+Enhanced WithdrawalTransaction (with Exception Handling):
+@Override
+public void apply(BankAccount ba) {
+    try {
+        if (ba.getBalance() < amount) {
+            throw new InsufficientFundsException("Insufficient balance for withdrawal.");
+        }
+        ba.withdraw(amount); // Withdraw the specified amount
+    } catch (InsufficientFundsException e) {
+        System.out.println(e.getMessage()); // Handle insufficient funds exception
+    } finally {
+        System.out.println("Transaction attempted.");
+    }
+}
+
