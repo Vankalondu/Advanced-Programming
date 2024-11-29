@@ -1,0 +1,3 @@
+The functionality differentiation between DepositTransaction and WithdrawalTransaction was 
+addressed in the previous code with the reverse() method and the specific apply() implementations.
+The reverse() method in WithdrawalTransaction restores the withdrawn amount to the account.
