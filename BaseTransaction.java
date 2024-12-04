@@ -1,10 +1,9 @@
 import java.util.Calendar;
 
 /**
- * BaseTransaction class implements the TransactionInterface.
- * Represents the common properties and behaviors of all transactions.
+ * BaseTransaction class represents a general financial transaction.
  */
-public abstract class BaseTransaction implements TransactionInterface {
+public class BaseTransaction implements TransactionInterface {
     protected double amount;
     protected Calendar date;
     protected String transactionID;
@@ -38,6 +37,11 @@ public abstract class BaseTransaction implements TransactionInterface {
         System.out.println("Date: " + date.getTime());
     }
 
+    /**
+     * Default implementation of apply().
+     */
     @Override
-    public abstract void apply(BankAccount ba); // To be implemented by subclasses
+    public void apply(BankAccount ba) {
+        System.out.println("Default apply() method: No transaction applied.");
+    }
 }
