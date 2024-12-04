@@ -1,33 +1,57 @@
 import java.util.Calendar;
 
-/**
- * Main class to test DepositTransaction, WithdrawalTransaction, and the system.
- */
 public class Main {
     public static void main(String[] args) {
-        // Create a Calendar instance for the transaction date
-        Calendar date = Calendar.getInstance();
-
-        // Create a BankAccount object
+        // Initialize a bank account with a starting balance of 5000
         BankAccount account = new BankAccount(5000); // Initial balance: 5000
 
-        // Test DepositTransaction
-        DepositTransaction deposit = new DepositTransaction(2000, date, "D001");
-        System.out.println("\nPerforming Deposit Transaction:");
-        deposit.apply(account); // Apply deposit
-        deposit.printTransactionDetails();
-        System.out.println("Balance after deposit: " + account.getBalance());
+        // Create a Calendar instance for the current date
+        Calendar date = Calendar.getInstance();
 
-        // Test WithdrawalTransaction
-        WithdrawalTransaction withdrawal = new WithdrawalTransaction(1000, date, "W001");
-        System.out.println("\nPerforming Withdrawal Transaction:");
-        withdrawal.apply(account); // Apply withdrawal
-        withdrawal.printTransactionDetails();
-        System.out.println("Balance after withdrawal: " + account.getBalance());
+        // Example: Valid deposit transaction
+        try {
+            DepositTransaction deposit = new DepositTransaction(1000, date, "DT001");
+            deposit.apply(account);  // This should work fine
+            deposit.printTransactionDetails();
+            System.out.println("Balance after deposit: " + account.getBalance());
+        } catch (InvalidTransactionException e) {
+            System.out.println("Error during deposit: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error during deposit: " + e.getMessage());
+        }
 
-        // Test Reversal
-        System.out.println("\nReversing Withdrawal Transaction:");
-        withdrawal.reverse(account); // Reverse the withdrawal
-        System.out.println("Balance after reversal: " + account.getBalance());
+        // Example: Invalid deposit (negative amount)
+        try {
+            DepositTransaction invalidDeposit = new DepositTransaction(-500, date, "DT002");
+            invalidDeposit.apply(account);  // This should throw an exception
+            invalidDeposit.printTransactionDetails();
+        } catch (InvalidTransactionException e) {
+            System.out.println("Error during deposit: " + e.getMessage());  // Expected error: negative deposit amount
+        } catch (Exception e) {
+            System.out.println("Unexpected error during deposit: " + e.getMessage());
+        }
+
+        // Example: Valid withdrawal transaction
+        try {
+            WithdrawalTransaction withdrawal = new WithdrawalTransaction(1500, date, "WT001");
+            withdrawal.apply(account);  // This should work fine
+            withdrawal.printTransactionDetails();
+            System.out.println("Balance after withdrawal: " + account.getBalance());
+        } catch (InsufficientFundsException e) {
+            System.out.println("Error during withdrawal: " + e.getMessage());  // Expected error: insufficient funds
+        } catch (Exception e) {
+            System.out.println("Unexpected error during withdrawal: " + e.getMessage());
+        }
+
+        // Example: Invalid withdrawal (insufficient funds)
+        try {
+            WithdrawalTransaction invalidWithdrawal = new WithdrawalTransaction(10000, date, "WT002");
+            invalidWithdrawal.apply(account);  // This should throw an exception
+            invalidWithdrawal.printTransactionDetails();
+        } catch (InsufficientFundsException e) {
+            System.out.println("Error during withdrawal: " + e.getMessage());  // Expected error: insufficient funds
+        } catch (Exception e) {
+            System.out.println("Unexpected error during withdrawal: " + e.getMessage());
+        }
     }
 }
