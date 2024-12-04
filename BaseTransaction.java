@@ -41,3 +41,13 @@ public abstract class BaseTransaction implements TransactionInterface {
     @Override
     public abstract void apply(BankAccount ba); // To be implemented by subclasses
 }
+
+@Override
+public void apply(BankAccount ba) {
+    try {
+        // Default implementation (if needed)
+        System.out.println("Default apply() method: No transaction applied.");
+    } catch (Exception e) {
+        System.out.println("An error occurred in BaseTransaction: " + e.getMessage());
+    }
+}
